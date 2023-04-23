@@ -11,7 +11,7 @@ app.use(cors())
 
 app.use(express.json())
 
-app.use('/invoice', router)
+app.use('/', router)
 
 try {
     await db.authenticate()
