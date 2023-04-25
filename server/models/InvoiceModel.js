@@ -18,7 +18,7 @@ const clientModel = db.define('clients', {
     phone_c: { type: DataTypes.STRING},
     email_c: { type: DataTypes.STRING},
     password_c: { type: DataTypes.STRING},
-    date_entry: { type: DataTypes.DATE},
+    entry_date: { type: DataTypes.DATE},
     createdAt: { type: DataTypes.DATE},
     updatedAt: { type: DataTypes.DATE},  
 });

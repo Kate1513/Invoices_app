@@ -1,4 +1,4 @@
-import { productModel, invoiceModel, invoiceDetailsModel } from "../models/InvoiceModel.js";
+import { productModel, invoiceModel, invoiceDetailsModel, clientModel } from "../models/InvoiceModel.js";
 
 //Create endpoints
 
@@ -41,6 +41,16 @@ export const getProduct = async (req, res) => {
             where: { id_product: req.params.id }
             })
         res.json(product)
+    } catch (error) {
+        res.json( {message: error.message})
+    }
+}
+
+//Get Clients
+export const getClients = async (req, res) => {
+    try {
+        const clients = await clientModel.findAll()
+        res.json(clients)   
     } catch (error) {
         res.json( {message: error.message})
     }

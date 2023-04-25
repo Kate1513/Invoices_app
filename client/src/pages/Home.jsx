@@ -1,8 +1,11 @@
+import { InvoiceModal } from '../components/Invoice'
+
 function Home() {
   return (
-    <>
-      <h1>Hola Amorcito</h1>
-    </>
+    <main className='col-sm-3'>
+      <h1>Welcome</h1>
+      <InvoiceModal />
+    </main>
   )
 }
 
