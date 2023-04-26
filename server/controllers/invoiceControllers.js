@@ -71,8 +71,8 @@ export const getClient = async (req, res) => {
 //Post an invoice
 export const createInvoice = async (req, res) => {
     try {
-        await invoiceModel.create(req.body)
-        res.json({ 'message': 'Factura generada'})
+        const newInvoice = await invoiceModel.create(req.body)
+        res.json({ 'id_invoice': newInvoice.null})
     } catch (error) {
         res.json( {message: error.message})
     }
@@ -87,5 +87,4 @@ export const createInvoiceDetails = async (req, res) => {
         res.json( {message: error.message})
     }
 }
-
 

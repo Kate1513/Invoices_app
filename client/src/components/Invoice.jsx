@@ -3,6 +3,8 @@ import { InvoiceDetails } from './InvoiceDetails'
 
 function InvoiceModal() {
   const [clients, setClients] = useState([])
+  const [actualClient, setActualClient] = useState('')
+  const [actualdate, setactualDate] = useState('')
 
   useEffect(() => {
     const URL = `http://localhost:7000/clients/`
@@ -11,6 +13,12 @@ function InvoiceModal() {
       .then((data) => setClients(data))
   }, [])
 
+  function handleActualClient(selectedClient) {
+    return setActualClient(selectedClient)
+  }
+  function handleDate(selectedDate) {
+    return setactualDate(selectedDate)
+  }
   return (
     <>
       <button type='button' className='btn btn-custom mt-3 ms-4' data-bs-toggle='modal' data-bs-target='#exampleModal'>
@@ -34,18 +42,38 @@ function InvoiceModal() {
               </div>
               <form className='modal-body'>
                 <h5 className='text-center mb-3'>User details</h5>
-                <section className='d-flex flex-wrap justify-content-center justify-content-evenly bg-warning'>
-                  <input type='date' className='text-center' required disabled></input>
-                  <select name='Client' className='text-center' required>
-                    {clients.map((client) => (
-                      <option key={client.id_client} value={client.id_client}>
-                        {client.name_client}
-                      </option>
-                    ))}
-                  </select>
+                <section className='d-flex flex-wrap justify-content-center justify-content-evenly'>
+                  <div>
+                    <label htmlFor='date' className='d-flex'>
+                      Date *
+                    </label>
+                    <input
+                      type='date'
+                      className='text-center rounded'
+                      onChange={(e) => handleDate(e.target.value)}
+                      required
+                    ></input>
+                  </div>
+                  <div>
+                    <label htmlFor='client' className='d-flex'>
+                      Client *
+                    </label>
+                    <select
+                      name='client'
+                      className='text-center rounded'
+                      onChange={(e) => handleActualClient(e.target.value)}
+                      required
+                    >
+                      {clients.map((client) => (
+                        <option key={client.id_client} value={client.id_client}>
+                          {client.name_client}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </section>
               </form>
-              <InvoiceDetails />
+              <InvoiceDetails client={actualClient} dateT={actualdate} />
             </div>
           </main>
         </div>

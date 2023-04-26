@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
+import { newInvoice } from '../lib/postFunctions'
 import '../index.css'
 
-function InvoiceDetails() {
+function InvoiceDetails({ client, dateT }) {
   const [products, setProducts] = useState([])
   const [details, setDetails] = useState([])
-  const [subtotal, setSubtotaL] = useState(0)
-  const [total, setTotal] = useState(0)
-  const [discount, setDiscount] = useState(0)
+  const [subtotalT, setSubtotaL] = useState(0)
+  const [totalT, setTotal] = useState(0)
+  const [discountT, setDiscount] = useState(0)
 
   const productRef = useRef()
   const quantityRef = useRef()
@@ -26,10 +27,9 @@ function InvoiceDetails() {
     const nameProduct = filterProduct[0].name_product
     const price = filterProduct[0].price
     const totalPrice = price * quantityProduct
-    const lastSubtotal = subtotal + totalPrice
+    const lastSubtotal = subtotalT + totalPrice
 
     const detailObject = {
-      id_invoice: '',
       id_product: productId,
       quantity: quantityProduct,
       name_product: nameProduct,
@@ -39,12 +39,25 @@ function InvoiceDetails() {
     lastDetail.push(detailObject)
     setDetails(() => lastDetail)
     setSubtotaL(() => lastSubtotal)
-    setTotal(() => lastSubtotal - (lastSubtotal * discount) / 100)
+    setTotal(() => lastSubtotal - (lastSubtotal * discountT) / 100)
   }
 
   function handleDiscount(actualDiscount) {
-    setTotal(() => subtotal - (subtotal * actualDiscount) / 100)
+    setTotal(() => subtotalT - (subtotalT * actualDiscount) / 100)
     return setDiscount(actualDiscount)
+  }
+
+  function submitInvoice() {
+    const invoiceData = {
+      id_admin: 1,
+      id_client: client,
+      date: dateT,
+      subtotal: subtotalT,
+      discount: discountT,
+      total: totalT,
+    }
+
+    return newInvoice(invoiceData, details)
   }
 
   return (
@@ -56,26 +69,26 @@ function InvoiceDetails() {
           </label>
           <input
             name='Discount'
-            className='mx-3 col-2 text-center'
+            className='mx-3 col-2 text-center rounded'
             onChange={(e) => handleDiscount(e.target.value)}
             placeholder='%'
             required
           ></input>
         </section>
         <section className='d-flex flex-wrap justify-content-center'>
-          <select className='mx-3 text-center' name='Product' ref={productRef} required>
+          <select className='mx-3 text-center rounded' name='Product' ref={productRef} required>
             {products.map((product) => (
               <option key={product.id_product} value={product.id_product}>
                 {product.name_product}
               </option>
             ))}
           </select>
-          <input type='number' className='mx-2 col-1 text-center' defaultValue={1} ref={quantityRef} required />
-          <button type='button' onClick={addProduct} className='btn btn-secondary'>
+          <input type='number' className='mx-2 col-1 text-center rounded' defaultValue={1} ref={quantityRef} required />
+          <button type='button' onClick={addProduct} className='btn btn-secondary btn-sm'>
             +
           </button>
         </section>
-        <div className='d-flex bg-danger mx-4 mt-4 text-center border'>
+        <div className='d-flex mx-4 mt-4 text-center border'>
           <p className='col'>Product Id</p>
           <p className='col'>Quantity</p>
           <p className='col'>Product name</p>
@@ -89,10 +102,10 @@ function InvoiceDetails() {
             <p className='col'>{`$${detail.total_price}`}</p>
           </div>
         ))}
-        <p className='d-flex justify-content-end me-5'>Subtotal: ${subtotal}</p>
-        <p className='d-flex justify-content-end me-5'>Total: ${total}</p>
+        <p className='d-flex justify-content-end me-5'>Subtotal: ${subtotalT}</p>
+        <p className='d-flex justify-content-end me-5'>Total: ${totalT}</p>
         <div className='modal-footer'>
-          <button type='submit' className='btn btn-custom'>
+          <button type='button' className='btn btn-custom' onClick={submitInvoice}>
             Add
           </button>
           <button type='button' className='btn btn-secondary' data-bs-dismiss='modal'>

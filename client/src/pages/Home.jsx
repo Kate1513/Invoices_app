@@ -8,16 +8,21 @@ function Home() {
 
   useEffect(() => {
     const URL = 'http://localhost:7000/invoices/'
+
     fetch(URL)
       .then((response) => response.json())
-      .then((data) => setInvoices(data))
-
-    const URLs = invoices.map((invoice) => `http://localhost:7000/client/${invoice.id_client}`)
-
-    Promise.all(URLs.map((petition) => fetch(petition))).then((responses) =>
-      Promise.all(responses.map((response) => response.json())).then((data) => setClients(data))
-    )
-  }, [clients])
+      .then(async (data) => {
+        setInvoices(data)
+        const URLs = data.map((invoice) => `http://localhost:7000/client/${invoice.id_client}`)
+        const promises = URLs.map((url) => fetch(url).then((response) => response.json()))
+        const clientsData = await Promise.all(promises)
+        setClients(clientsData)
+      })
+      .catch((error) => {
+        console.error('Error fetching data', error)
+        // Maneja el error aquí, por ejemplo, mostrando una notificación al usuario
+      })
+  }, [])
 
   return (
     <>
@@ -30,7 +35,7 @@ function Home() {
         <section className='container bg-light border rounded'>
           <InvoiceModal />
           <section>
-            <div className='d-flex bg-danger mx-4 mt-3 text-center border rounded'>
+            <div className='d-flex mx-4 mt-3 text-center border rounded'>
               <p className='col'># Invoice</p>
               <p className='col'>Client</p>
               <p className='col'>Date</p>

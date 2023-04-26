@@ -9,7 +9,7 @@ router.get('/products/', getAllProducts)
 router.get('/product/:id', getProduct)
 router.get('/clients/', getAllClients)
 router.get('/client/:id', getClient)
-router.post('/invoice/create', createInvoice)
-router.post('/invoice/create/details', createInvoiceDetails)
+router.post('/invoice/create/', createInvoice)
+router.post('/invoice/create/details/', createInvoiceDetails)
 
 export { router }
