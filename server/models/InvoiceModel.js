@@ -4,20 +4,20 @@ import { DataTypes } from 'sequelize'
 
 const adminModel = db.define('admin', {
     id_admin: { type: DataTypes.INTEGER, primaryKey:true },
-    name_a: { type: DataTypes.STRING},
-    email_a: { type: DataTypes.STRING},
-    password_a: { type: DataTypes.STRING},
+    name_admin: { type: DataTypes.STRING},
+    email_admin: { type: DataTypes.STRING},
+    password_admin: { type: DataTypes.STRING},
     createdAt: { type: DataTypes.DATE},
     updateAt: { type: DataTypes.DATE},    
 });
 
 const clientModel = db.define('clients', {
     id_client: { type: DataTypes.INTEGER, primaryKey:true },
-    name_c: { type: DataTypes.STRING},
-    contact_c: { type: DataTypes.STRING},
-    phone_c: { type: DataTypes.STRING},
-    email_c: { type: DataTypes.STRING},
-    password_c: { type: DataTypes.STRING},
+    name_client: { type: DataTypes.STRING},
+    contact_client: { type: DataTypes.STRING},
+    phone_client: { type: DataTypes.STRING},
+    email_client: { type: DataTypes.STRING},
+    password_client: { type: DataTypes.STRING},
     entry_date: { type: DataTypes.DATE},
     createdAt: { type: DataTypes.DATE},
     updatedAt: { type: DataTypes.DATE},  
@@ -31,7 +31,7 @@ const productModel = db.define('products', {
     updatedAt: { type: DataTypes.DATE},  
 })
 
-const invoiceModel = db.define('invoice', {
+const invoiceModel = db.define('invoices', {
     id_invoice: { type: DataTypes.INTEGER, primaryKey:true },
     id_admin: { type: DataTypes.INTEGER},
     id_client: { type: DataTypes.INTEGER},

@@ -47,9 +47,21 @@ export const getProduct = async (req, res) => {
 }
 
 //Get Clients
-export const getClients = async (req, res) => {
+export const getAllClients = async (req, res) => {
     try {
         const clients = await clientModel.findAll()
+        res.json(clients)   
+    } catch (error) {
+        res.json( {message: error.message})
+    }
+}
+
+//Get one Client
+export const getClient = async (req, res) => {
+    try {
+        const clients = await clientModel.findOne({
+            where: {id_client: req.params.id}
+        })
         res.json(clients)   
     } catch (error) {
         res.json( {message: error.message})
